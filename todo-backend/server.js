@@ -87,72 +87,93 @@
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);
 // });
+//---------------------------------------------------------------------------------------------------------------------
 
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
 
-const app = express();
 
-// Middleware setup
-app.use(cors());
-app.use(express.json()); // Parse JSON bodies
+// const express = require("express");
+// const cors = require("cors");
+// const mongoose = require("mongoose");
+// const dotenv = require("dotenv");
+// const connection = require("./db");
 
-// Import Todo model
-const Todo = require("./models/todoModel");
+// dotenv.config();
 
-// Connect to MongoDB
-const connectDB = async () => {
-  try {
-    await mongoose.connect(
-      "mongodb+srv://Adnan-Devops:Devops-Adnan@todoappdb.knum0w5.mongodb.net/todoapp?retryWrites=true&w=majority&appName=Todoappdb"
-    );
-    console.log("✅ MongoDB connected");
-  } catch (error) {
-    console.error("❌ MongoDB connection failed:", error);
-    process.exit(1);
-  }
-};
+// const app = express();
 
-// Test root route
-app.get("/", (req, res) => {
-  res.status(200).json({ message: "🚀 Todo backend is running!" });
-});
+// // Middleware setup
+// app.use(cors());
+// app.use(express.json());
 
-// Add a new todo
-app.post("/add-todo", async (req, res) => {
-  const { title } = req.body;
+// // Import Todo model
+// const Todo = require("./models/todoModel");
 
-  if (!title || !title.trim()) {
-    return res.status(400).json({ error: "Title is required" });
-  }
+// // Connect to MongoDB
+// const connectDB = async () => {
+//   try {
+//     await mongoose.connect(process.env.MONGO_URL);
+//     console.log("✅ MongoDB connected");
+//   } catch (error) {
+//     console.error("❌ MongoDB connection failed:", error);
+//     process.exit(1);
+//   }
+// };
 
-  try {
-    const newTodo = new Todo({ title });
-    await newTodo.save();
-    console.log("✅ Todo saved:", newTodo);
-    res.status(201).json({ message: "Todo saved successfully", todo: newTodo });
-  } catch (error) {
-    console.error("❌ Error saving todo:", error);
-    res.status(500).json({ error: "Failed to save todo" });
-  }
-});
+// // Test root route
+// app.get("/", (req, res) => {
+//   res.status(200).json({ message: "🚀 Todo backend is running!" });
+// });
 
-// Get all todos
-app.get("/get-todo", async (req, res) => {
-  try {
-    const todos = await Todo.find();
-    res.status(200).json(todos);
-  } catch (error) {
-    console.error("❌ Error fetching todos:", error);
-    res.status(500).json({ error: "Failed to fetch todos" });
-  }
-});
+// // Add a new todo
+// app.post("/add-todo", async (req, res) => {
+//   const { title } = req.body;
 
-// Start server after DB connection
-const PORT = 3005;
+//   if (!title || !title.trim()) {
+//     return res.status(400).json({ error: "Title is required" });
+//   }
+
+//   try {
+//     const newTodo = new Todo({ title });
+//     await newTodo.save();
+//     console.log("✅ Todo saved:", newTodo);
+//     res.status(201).json({ message: "Todo saved successfully", todo: newTodo });
+//   } catch (error) {
+//     console.error("❌ Error saving todo:", error);
+//     res.status(500).json({ error: "Failed to save todo" });
+//   }
+// });
+
+// // Get all todos
+// app.get("/get-todo", async (req, res) => {
+//   try {
+//     const todos = await Todo.find();
+//     res.status(200).json(todos);
+//   } catch (error) {
+//     console.error("❌ Error fetching todos:", error);
+//     res.status(500).json({ error: "Failed to fetch todos" });
+//   }
+// });
+
+// // Start server after DB connection
+// const PORT = 3005;
+// connectDB().then(() => {
+//   app.listen(PORT, () => {
+//     console.log(`🚀 Server is running on port ${PORT}`);
+//   });
+// });
+
+require("dotenv").config();
+
+const dotenv = require("dotenv");
+const connectDB = require("./db");
+const app = require("./app");
+
+dotenv.config();
+
+const PORT = process.env.PORT || 3005;
+
 connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
-  });
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 });
+
+

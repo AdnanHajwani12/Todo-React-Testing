@@ -197,3 +197,12 @@ Here are options:
 
 Just tell me which one you want, and I’ll drop the code immediately.
 Let’s keep building! 💻🔥
+
+
+Unit Testing:
+
+Imp notes:
+1.SO in server.js we have exposed our mongo credentials which can be risky if we push our code in github
+in order to safeguard that all we need to create a env where we can store values
+
+2.
